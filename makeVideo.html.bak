@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" href="../css/make_video.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+</head>
+<body>
+  <script >
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    var url = getParameterByName('url');
+  </script>
+  <div class="Main">
+      <div class="Video">
+        <video id='video' controls >
+    			<source src="" type='video/mp4'>
+    		</video>
+        <script type="text/javascript">
+
+        video = document.getElementById("video");
+        video.src = url;
+        if(url == ""){
+          video.src = "http://106.255.255.203/uploads/lbw930819/test2.mp4";
+          //video.src = sessionStorage.url;
+        }
+
+        </script>
+      </div>
+
+      <div class="Menu">
+        <h4>목소리 선택</h4>
+        <div class="choice">
+        </div>
+        <h4>효과</h4>
+        <div class="effect">
+          <!-- <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;"> -->
+        <div id=wrap1 border-bottom: 1px solid black;>
+          <h5> 음량 </h5>
+          <div id="slider1"></div>
+          <span id="txt1">Low</span><span id="txt2">High</span>
+        </div>
+        <div id=wrap2>
+          <h5> 속도 </h5>
+          <div id="slider2"></div>
+          <span id="txt1">X0.1</span><span id="txt2">X10</span>
+        </div>
+        </div>
+        <h4>완료</h4>
+        <div class="complete">
+          <button id=button1><img id=image1 src="../img/extraction.png"></button>
+          <button id=button2><img id=image2 src="../img/savefile.png"><button>
+          <button id=button3><img id=image3 src="../img/share.png"></button>
+          <button id=button4 onclick="refreshMain();"><img id=image4 src="../img/exit.png"><button>
+          <span id="text1">추출하기</span><span id="text2">저장하기</span><span id="text3">공유하기</span> <span id="text4">나가기</span>
+        </div>
+      </div>
+
+      <div class="Input">
+        <div class="buttonArea1">
+        <button id=button1><img id=img1 src="../img/textadd.png"></button>
+        <button id=button2 onClick="show();"><img id=img2 src="../img/textedit.png"><button>
+        </div>
+        <div class="textArea" id="textArea">
+          <textarea id="area" rows="10" cols="110" disabled></textarea>
+        </div>
+        <div class="buttonArea2" id="buttonArea2">
+          <button id=button1 onclick="hide();"><img src="../img/textsave.png"><button>
+          <button id=button2 onclick="hide();"><img src="../img/textcancel_gray.png"></button>
+        </div>
+      </div>
+  </div>
+
+  <script language='javascript' type="text/javascript">
+    function show(){
+      document.getElementById("buttonArea2").style.visibility='visible';
+      document.getElementById("img1").src="../img/textadd_gray.png";
+      document.getElementById("img2").src="../img/textedit_gray.png";
+      document.getElementById("textArea").style.background='white';
+      document.getElementById("area").disabled=false;
+      document.getElementById("area").style.color="black";
+    }
+    function hide(){
+      document.getElementById("buttonArea2").style.visibility='hidden';
+      document.getElementById("img1").src="../img/textadd.png";
+      document.getElementById("img2").src="../img/textedit.png";
+      document.getElementById("textArea").style.background='transparent';
+      document.getElementById("area").disabled=true;
+      document.getElementById("area").style.color="white";
+    }
+
+    function refreshMain(){
+    	var select;
+    	select = confirm("메인 화면으로 돌아가시겠습니까?");
+    	if(select){
+    		window.close();
+    	}
+    }
+  </script>
+
+  <script>
+      $(function() {
+          $("#slider1").slider({
+              range: "max",
+              min: 1,
+              max: 100,
+              value: 50,
+              slide: function(event, ui) {
+                  $("#amount").val(ui.value);
+              }
+          });
+          $("#amount").val($("#slider1").slider("value"));
+      });
+
+      $(function() {
+          $("#slider2").slider({
+              range: "max",
+              min: 1,
+              max: 100,
+              value: 50,
+              slide: function(event, ui) {
+                  $("#amount").val(ui.value);
+              }
+          });
+          $("#amount").val($("#slider2").slider("value"));
+      });
+  </script>
+</body>
+</html>

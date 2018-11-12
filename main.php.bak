@@ -1,0 +1,112 @@
+﻿<?php session_start(); ?>
+<!DOCTYPE html>
+<html xml:lang="ko" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <META http-equiv="Expires" content="-1">
+   <META http-equiv="Pragma" content="no-cache">
+   <META http-equiv="Cache-Control" content="No-Cache">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript">
+  <link rel="stylesheet" type="text/css" href="../css/m_main.css">
+  <link rel="shortcut icon" href="../favicon.ico">
+<link rel="stylesheet" type="text/css" href="../css/menu_component.css" />
+<script src="../js/modernizr.custom.js"></script>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+//<!--
+// 주소창 자동 닫힘
+window.addEventListener("load", function()
+{
+  setTimeout(loaded, 100);
+}, false);
+
+function loaded()
+{
+  window.scrollTo(0, 1);
+}
+//-->
+
+</script>
+
+<style>
+   </style>
+</head>
+<body>
+<script language = "javascript">
+  //var naver_id_login = new naver_id_login("bC7wUtwtalhY8g3IwpW7", "http://127.0.0.1/m/main.php");  
+  //접근 토큰 값 출력은 안됨, CALLBACK url에서 토큰값을 받을 수 있음
+  //alert(naver_id_login.oauthParams.access_token);
+</script>
+<div class="mainheader">
+		 <div class="container">
+			<ul id="gn-menu" class="gn-menu-main">
+				<li class="gn-trigger">
+					<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+					<nav class="gn-menu-wrapper">
+						<div class="gn-scroller">
+							<ul class="gn-menu">
+								<li>
+									<a class="gn-icon gn-icon-download">Mypage</a>
+									<!--<ul class="gn-submenu">
+										<li><a class="gn-icon gn-icon-illustrator">Vector Illustrations</a></li>
+										<li><a class="gn-icon gn-icon-photoshop">Photoshop files</a></li>
+									</ul>-->
+								</li>
+								<li><a class="gn-icon gn-icon-cog" href="creator_studio.php">Creator Studio</a></li>
+								<li><a class="gn-icon gn-icon-help">Logout</a></li>
+							</ul>
+						</div><!-- /gn-scroller -->
+					</nav>
+				</li>
+				<li><h1 id="logo"><a href="main.php"><img src = "../img/smartear.png"/></a></h1></li>
+		 <li><!-- 로그인 안 했을 경우 메뉴-->
+            <?php if(!isset($_SESSION["id"])) { ?>
+          <span id="button"><button id="btn" type="submit" onclick="location.href = 'login.html';"><img src="../img/login.png"></button>
+            <button id="btn" type="submit" onclick="location.href='register.html';"><img src="../img/register.png"></button>
+          </span>
+              <!-- 로그인 했을 경우 메뉴 -->
+          <?php }else { ?>
+		  <span id="button">
+            <!--<button id="userbtn" type="submit" onclick="location.href='mypage.php';"><img src="../img/m_user_on.png"></button>-->
+			<button id="btn" type="submit" onclick="location.href='mypage.php';"><img src="../img/m_user_on.png"></button>
+			<span id="id_text"><?php echo $_SESSION["id"];?>님</span>
+            <button id="btn" type="submit" onclick="location.href='logout.php';"><img src="../img/logout.png"></button>
+            </span>
+         <?php } ?></li>
+			</ul>
+			</div>
+</div>
+    <div class="global_header">
+      <input type="text" placeholder="인기 콘텐츠 검색"><a href="#" class="search"><img src="../img/m_search.png"/></a></input>
+         <span id="button">
+      <button type="submit" onclick="location.href='upload-1.php';"><a href="#" class="setting">
+     <img src="../img/m_setting.png"/></a></button></span>
+    </div>
+
+	</div>
+<div class="fixed_menu">
+      <ul>
+        <li class="topMenuLi"><a class="menuLink" href="main.php">Mypage</a></li>
+        <li class="topMenuLi"><a class="menuLink" href="chart_page.php">Chart</a></li> 
+        <li class="topMenuLi"><a class="menuLink" href="#">Round</a></li>
+        <li class="topMenuLi"><a class="menuLink" href="#">Payment</a></li>
+
+      </ul>
+    </div>
+  <!-- 녹음api테스트 부분 -->
+ 
+  <div class="contents">
+  <br>
+  <button id="userbtn" type="submit" onclick="location.href='creator_studio.php';"><img src="../img/textadd.png"></button> <!-- 녹음파일 업로드 -->
+</div>
+<script src="../js/classie.js"></script>
+		<script src="../js/gnmenu.js"></script>
+		<script>
+			new gnMenu( document.getElementById( 'gn-menu' ) );
+		</script>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" /><title>forked: JavaScript Wav to MP3 Test - js do it</title>
+<meta name="Description" content="jsdo.it - share JavaScript, HTML5 and CSS - " />
+<meta name="Keywords"  content="JavaScript,HTML5,CSS" />
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+
+<style type="text/css">@import '//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css';
+@import '//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css';</style></head>
+<body>
+<h1>JavaScript Convert Wav to MP3(LAME) Test</h1>
+<dl>
+    <dt>Original Sound (wav)</dt>
+    <dd><audio src="/audio/aaa.wav" controls="controls">http://jsrun.it/assets/6/T/6/S/6T6Sn.wav</audio></dd>
+    <dt>Convert to MP3</dt>
+    <dd><button id="execute" class="btn">Convert and play</button></dd>
+</dl>
+<p>
+    This program uses <a href="https://github.com/akrennmair/libmp3lame-js" target="_blank">libmp3lame.js</a>.
+</p>
+<script type="text/javascript">
+// forked from Masashi.Yoshikawa's "JavaScript Wav to MP3 Test" http://jsdo.it/Masashi.Yoshikawa/wav2mp3byJS
+var encoderWorker = new Worker('/audio/');
+
+function encode64(buffer) {
+    var binary = '',
+        bytes = new Uint8Array( buffer ),
+        len = bytes.byteLength;
+
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode( bytes[ i ] );
+    }
+    return window.btoa( binary );
+}
+
+function parseWav(wav) {
+    function readInt(i, bytes) {
+        var ret = 0,
+            shft = 0;
+
+        while (bytes) {
+            ret += wav[i] << shft;
+            shft += 8;
+            i++;
+            bytes--;
+        }
+        return ret;
+    }
+    if (readInt(20, 2) != 1) throw 'Invalid compression code, not PCM';
+    if (readInt(22, 2) != 1) throw 'Invalid number of channels, not 1';
+    return {
+        sampleRate: readInt(24, 4),
+        bitsPerSample: readInt(34, 2),
+        samples: wav.subarray(44)
+    };
+}
+
+function Uint8ArrayToFloat32Array(u8a){
+    var f32Buffer = new Float32Array(u8a.length);
+    for (var i = 0; i < u8a.length; i++) {
+        var value = u8a[i<<1] + (u8a[(i<<1)+1]<<8);
+        if (value >= 0x8000) value |= ~0x7FFF;
+        f32Buffer[i] = value / 0x8000;
+    }
+    return f32Buffer;
+}
+
+document.getElementById('execute').onclick = function(){
+    var self = this, 
+        originalText = this.innerText,
+        xhr = new XMLHttpRequest();
+    
+    this.setAttribute("disabled", "disabled");
+    this.innerText = 'Loading...';
+    
+    xhr.open('GET', '/audio/aaa.wav', true);
+    xhr.responseType = 'arraybuffer';
+    xhr.onload = function(e) {
+        var buffer = new Uint8Array(xhr.response),
+            data = parseWav(buffer);
+        
+        console.log(data);
+
+        self.innerText = 'Converting...';
+
+        encoderWorker.postMessage({ cmd: 'init', config:{
+            mode : 3,
+			channels:1,
+			samplerate: data.sampleRate,
+			bitlate: data.bitsPerSample
+        }});
+
+        encoderWorker.postMessage({ cmd: 'encode', buf: Uint8ArrayToFloat32Array(data.samples) });
+        encoderWorker.postMessage({ cmd: 'finish'});
+        encoderWorker.onmessage = function(e) {
+            if (e.data.cmd == 'data') {
+                var audio = new Audio();
+                
+                self.removeAttribute("disabled");
+                self.innerText = originalText;
+                
+                audio.src = 'data:audio/mp3;base64,'+encode64(e.data.buf);
+                audio.play();
+                
+            }
+        };
+        
+    };
+    
+    xhr.send();
+};
+</script>
+</body>
+</html>

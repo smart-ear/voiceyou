@@ -1,0 +1,54 @@
+﻿<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta content="text/html"; charset="utf-8"/>
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+  <link rel="stylesheet" href="../css/login.css" type="text/css" >
+<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
+<script src="../js/naveridlogin_js_sdk_2.0.0.js"></script>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <title> SmartEar 로그인</title>
+</head>
+<body>
+  <!-- 아이디, 비밀번호 입력하는 부분 -->
+  <form class="login" action ="login_check.php" method="post">
+    <h1><a href="main.php"><img src="../img/logo.png"></a></h1>
+    <p>
+        <label for="id">아이디</label>
+        <input type="id" id="id" name="id" placeholder="아이디" required>
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" name="password" placeholder="비밀번호" required>
+    </p>
+    <p>
+    
+    <div id="subbtn">
+      <span id="checkbox"><input type="checkbox" id="check" name ="check" value="아이디 저장">아이디 저장</span>
+      <span id="btnSet">
+      <button id="btn" name ="btn">아이디 찾기</button> |
+      <button id="btn" name ="btn">비밀번호 찾기</button> |
+      <button id="btn" name = "btn" value="회원가입" onclick="location.href = 'register.html'";>회원가입</button></span>
+    </div>
+    </p>
+
+    <p>
+        <input type="submit" name="submit" value="로그인">
+
+    </p>
+
+  </form>
+   <!-- 네이버아이디로로그인 버튼 노출 영역 -->
+  <div id="naver_id_login"></div>
+  <script type="text/javascript">
+  	var naver_id_login = new naver_id_login("bC7wUtwtalhY8g3IwpW7", "http://127.0.0.1/m/n_login_check.php");
+  	var state = naver_id_login.getUniqState();
+  	naver_id_login.setButton("green", 2,40);
+  	naver_id_login.setDomain(".service.com");
+  	naver_id_login.setState(state);
+  	//naver_id_login.setPopup();  isPopup : 팝업형태로 연동페이지를 노출할지 여부를 결정. true(팝업으로노출) / false(기본페이지에서노출)
+  	naver_id_login.init_naver_id_login();
+  </script>
+
+</body>
+</html>

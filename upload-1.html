@@ -1,0 +1,92 @@
+<?php session_start(); ?>
+<!DOCTYPE html>
+<html xml:lang="ko" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <META http-equiv="Expires" content="-1">
+   <META http-equiv="Pragma" content="no-cache">
+   <META http-equiv="Cache-Control" content="No-Cache">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+  <link rel="stylesheet" type="text/css" href="../css/m_main.css">
+<script type="text/javascript">
+<!--
+// 주소창 자동 닫힘
+window.addEventListener("load", function()
+{
+  setTimeout(loaded, 100);
+}, false);
+
+function loaded()
+{
+  window.scrollTo(0, 1);
+}
+//-->
+</script>
+<style>
+   </style>
+</head>
+<body>
+<div class="mainheader">
+         <h1 id="logo"><a href="../m/main.php"><img src = "../img/smartear.png"/></a>
+               <!-- 로그인 안 했을 경우 메뉴-->
+            <?php if(!isset($_SESSION["id"])) { ?>
+          <span id="button"><button id="btn" type="submit" onclick="location.href = '../m/login.html';"><img src="../img/login.png"></button>
+            <button id="btn" type="submit" onclick="location.href='../m/register.html';"><img src="../img/register.png"></button>
+          </span>
+        </h1>
+              <!-- 로그인 했을 경우 메뉴 -->
+          <?php }else { ?>
+        <span id="button">
+            <button id="userbtn" type="submit" onclick="location.href='../m/mypage.php';"><img src="../img/m_user_on.png"></button>
+         <span id="id_text"><?php echo $_SESSION["id"];?>님</span>
+            <button id="btn" type="submit" onclick="location.href='../m/logout.php';"><img src="../img/logout.png"></button>
+        </span>
+         </h1>
+         <?php }
+       </div>
+    <div class="global_header">
+      <input type="text" placeholder="인기 콘텐츠 검색"><a href="#" class="search"><img src="../img/m_search.png"/></a></input>
+     <span id="button">
+      <button type="submit" onclick="location.href='../Vide/upload-1.html';"><a href="#" class="setting">
+     <img src="../img/m_setting.png"/></a></button></span>
+    </div>
+<div class="fixed_menu">
+      <ul>
+        <li class="topMenuLi"><a class="menuLink" href="../m/main.php">홈</a></li>
+        <li class="topMenuLi"><a class="menuLink" href="../m/mypage.php">희</a></li>
+        <li class="topMenuLi"><a class="menuLink" href="#">노</a></li>
+        <li class="topMenuLi"><a class="menuLink" href="#">애</a></li>
+        <li class="topMenuLi"><a class="menuLink" href="#">락</a></li>
+      </ul>
+    </div>
+
+  <!-- 여기에 동영상들이 들어가야합니다. -->
+    <div class="contents">
+
+    </div>
+</body>
+
+
+<head>
+  <meta charset="utf-8">
+  <h1> <font size="5em" color="green">Upload </h1>
+</head>
+<body>
+<form action="transfer_test.php" method="post" enctype="multipart/form-data" style="line-height:30%"">
+    <font size="2em" color="green"> 제&nbsp;&nbsp;&nbsp;목 
+    <input type="text" name="title" style="text-align:left; width:300px; height:25px; letter-spacing: -5px"><br><br>
+
+    줄거리 
+    <input type="text" name="script" style="text-align:left; width:300px; height:200px; letter-spacing: -5px"><br><br>
+
+    <!--Select File to upload<br><br>-->
+
+    <input type="file" name="uploaded_file" id="fileToUpload"><br><br>
+    
+    <input type="submit" value="파일 업로드" name="submit">
+</form>
+</body>
+
+
+</html>
